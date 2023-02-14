@@ -77,7 +77,7 @@ export const Upload = () => {
           <label htmlFor="formFile" className="form-label">
             Upload File{" "}
             <span className="text-danger">
-              <em>.json</em>
+              <em>.json, .csv, .xls</em>
             </span>
           </label>
           <input
