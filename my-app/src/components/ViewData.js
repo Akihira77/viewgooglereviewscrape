@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Items } from "./Items";
 
 export const ViewData = ({ itemsPerPage }) => {
   const [itemOffSet, setItemOffSet] = useState(0);
+  const [sort, setSort] = useState(false);
   let temp = [],
     currentItems = [],
     pageCount = 0;
 
   const data = useState(JSON.parse(localStorage.getItem("data")));
   const items = data[0];
-  console.log(items);
   const endOffset = itemOffSet + itemsPerPage;
-  if (items !== null) {
-    // Simulate fetching items from another resources.
-    // (This could be items from props; or items loaded in a local state
-    // from an API endpoint with useEffect and useState)
-    for (let i = itemOffSet; i < endOffset; i++) {
+
+  function loop(from, to, sort = null) {
+    if (sort === true) {
+      items.sort((a, b) => a.rate - b.rate);
+    } else if (sort === false) {
+      window.location.reload();
+    }
+    for (let i = from; i < to; i++) {
       //let time = items[i]["Waktu Review"].slice(0, items[i]["Waktu Review"].search(" "));
       //if (
       //    items[i]["Waktu Review"].slice(0, items[i]["Waktu Review"].search(" ")) == "seminggu" ||
@@ -24,15 +27,10 @@ export const ViewData = ({ itemsPerPage }) => {
       //) {
       //    time = 1;
       //}
-      let b1 = JSON.stringify(items[i]["Bintang 1"]).includes("empty") === false ? 1 : 0;
-      let b2 = JSON.stringify(items[i]["Bintang 2"]).includes("empty") === false ? 1 : 0;
-      let b3 = JSON.stringify(items[i]["Bintang 3"]).includes("empty") === false ? 1 : 0;
-      let b4 = JSON.stringify(items[i]["Bintang 4"]).includes("empty") === false ? 1 : 0;
-      let b5 = JSON.stringify(items[i]["Bintang 5"]).includes("empty") === false ? 1 : 0;
       let obj = {
         index: i + 1,
-        nama: items[i]["Nama"],
-        rate: b1 + b2 + b3 + b4 + b5,
+        nama: items[i].nama,
+        rate: items[i].rate,
         //waktuDalamHari:
         //    time *
         //    (items[i]["Waktu Review"].includes("bulan")
@@ -40,15 +38,23 @@ export const ViewData = ({ itemsPerPage }) => {
         //        : items[i]["Waktu Review"].includes("minggu")
         //            ? 7
         //            : 1),
-        waktu: items[i]["Waktu Review"],
-        review: items[i]["Review"],
-        jumlahLike: items[i]["Jumlah Like"],
-        respon: items[i]["Respon"],
-        waktuRespon: items[i]["Waktu Respon"],
-        textRespon: items[i]["Text Respon"],
+        waktu: items[i].waktu,
+        review: items[i].review,
+        jumlahLike: items[i].jumlahLike,
+        respon: items[i].respon,
+        waktuRespon: items[i].waktuRespon,
+        textRespon: items[i].textRespon,
       };
       temp.push(obj);
     }
+  }
+
+  if (items !== null) {
+    // Simulate fetching items from another resources.
+    // (This could be items from props; or items loaded in a local state
+    // from an API endpoint with useEffect and useState)
+
+    loop(itemOffSet, endOffset);
     currentItems = temp;
     pageCount = Math.ceil(items.length / itemsPerPage);
   }
@@ -64,14 +70,31 @@ export const ViewData = ({ itemsPerPage }) => {
     setItemOffSet(newOffset);
   };
 
+  const handleSort = () => {
+    temp = [];
+    loop(0, items.length, !sort);
+    setSort(!sort);
+    currentItems = temp;
+    console.log(temp);
+  };
+
   return (
     <div className="mx-auto d-flex mb-4">
       {items && items.length > 0 ? (
-        <div className="d-flex ps-3" style={{ width: "95%" }}>
+        <div className="d-flex ps-3" style={{ width: "96%" }}>
           <div className="w-100">
-            <h1 id="tabelLabel" className="text-center">
-              Your Google Maps Reviews Data
-            </h1>
+            <div className="text-center">
+              <h1 id="tabelLabel">Your Google Maps Reviews Data</h1>
+              <div className="d-flex">
+                <p className="mx-auto">Total {items.length}</p>
+                <button
+                  className={`rounded btn ${sort ? "btn-success" : "btn-info"} fs-4`}
+                  onClick={handleSort}
+                >
+                  Sort by Rate <em>{sort ? "dsc" : "asc"}</em>
+                </button>
+              </div>
+            </div>
             <Items currentItems={currentItems} />
           </div>
           <div className="mx-auto mt-5">
