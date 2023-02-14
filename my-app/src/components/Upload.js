@@ -62,7 +62,7 @@ export const Upload = () => {
       json.push(obj);
     }
     console.log(json);
-    localStorage.setItem("data", JSON.stringify(json));
+    sessionStorage.setItem("data", JSON.stringify(json));
     window.location = "view-data";
   };
 

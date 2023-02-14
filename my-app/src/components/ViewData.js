@@ -9,7 +9,7 @@ export const ViewData = ({ itemsPerPage }) => {
     currentItems = [],
     pageCount = 0;
 
-  const data = useState(JSON.parse(localStorage.getItem("data")));
+  const data = useState(JSON.parse(sessionStorage.getItem("data")));
   const items = data[0];
   const endOffset = itemOffSet + itemsPerPage;
 
