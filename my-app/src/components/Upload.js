@@ -36,15 +36,16 @@ export const Upload = () => {
     e.preventDefault();
     let json = [];
     for (let i = 0; i < fileRead.length; i++) {
-      let b1 = JSON.stringify(fileRead[i]["Bintang 1"]).includes("empty") === false ? 1 : 0;
-      let b2 = JSON.stringify(fileRead[i]["Bintang 2"]).includes("empty") === false ? 1 : 0;
-      let b3 = JSON.stringify(fileRead[i]["Bintang 3"]).includes("empty") === false ? 1 : 0;
-      let b4 = JSON.stringify(fileRead[i]["Bintang 4"]).includes("empty") === false ? 1 : 0;
-      let b5 = JSON.stringify(fileRead[i]["Bintang 5"]).includes("empty") === false ? 1 : 0;
+      // let b1 = JSON.stringify(fileRead[i]["Bintang 1"]).includes("empty") === false ? 1 : 0;
+      // let b2 = JSON.stringify(fileRead[i]["Bintang 2"]).includes("empty") === false ? 1 : 0;
+      // let b3 = JSON.stringify(fileRead[i]["Bintang 3"]).includes("empty") === false ? 1 : 0;
+      // let b4 = JSON.stringify(fileRead[i]["Bintang 4"]).includes("empty") === false ? 1 : 0;
+      // let b5 = JSON.stringify(fileRead[i]["Bintang 5"]).includes("empty") === false ? 1 : 0;
+      let rate = JSON.stringify(fileRead[i]["Rating"]);
       let obj = {
         index: i + 1,
-        nama: fileRead[i]["Nama"],
-        rate: b1 + b2 + b3 + b4 + b5,
+        nama: fileRead[i]["Name"],
+        rate: rate[2],
         //waktuDalamHari:
         //    time *
         //    (fileRead[i]["Waktu Review"].includes("bulan")
@@ -52,12 +53,12 @@ export const Upload = () => {
         //        : fileRead[i]["Waktu Review"].includes("minggu")
         //            ? 7
         //            : 1),
-        waktu: fileRead[i]["Waktu Review"],
+        waktu: fileRead[i]["Duration"],
         review: fileRead[i]["Review"],
-        jumlahLike: fileRead[i]["Jumlah Like"],
-        respon: fileRead[i]["Respon"],
-        waktuRespon: fileRead[i]["Waktu Respon"],
-        textRespon: fileRead[i]["Text Respon"],
+        // jumlahLike: fileRead[i]["Jumlah Like"],
+        respon: fileRead[i]["Respon"] ?? "",
+        waktuRespon: fileRead[i]["Waktu Respon"] ?? "",
+        textRespon: fileRead[i]["Text Respon"] ?? "",
       };
       json.push(obj);
     }

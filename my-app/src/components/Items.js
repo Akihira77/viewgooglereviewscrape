@@ -9,12 +9,12 @@ export const Items = ({ currentItems }) => {
             <th scope="col"></th>
             <th scope="col">Name</th>
             {/*<th scope="col">Waktu dalam Hari</th>*/}
-            <th scope="col">Rate</th>
-            <th scope="col">Date</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Duration</th>
             <th scope="col">Like</th>
             <th scope="col">Review</th>
             <th scope="col">Respon</th>
-            <th scope="col">Respon Date</th>
+            <th scope="col">Respon Duration</th>
             <th scope="col">Respon Text</th>
           </tr>
         </thead>
